@@ -2,7 +2,6 @@ import UIKit
 
     class ViewController: UIViewController {
         
-        // Элементы на экране
         @IBOutlet weak var staticLubel: UILabel!
         @IBOutlet weak var questionNumberLabel: UILabel!
         @IBOutlet weak var questionTextLabel: UILabel!
@@ -10,7 +9,6 @@ import UIKit
         @IBOutlet weak var yesButton: UIButton!
         @IBOutlet weak var noButton: UIButton!
         
-        // Вопросы для квиза
         let questions = [
             ["image": "film1",
              "text": "Рейтинг этого фильма больше 9?",
@@ -53,7 +51,6 @@ import UIKit
             showQuestion()
         }
         
-        // Показываем текущий вопрос
         func showQuestion() {
             let question = questions[currentQuestion]
             movieImageView.image = UIImage(named: question["image"] as! String)
@@ -61,28 +58,22 @@ import UIKit
             questionNumberLabel.text = "\(currentQuestion + 1)/\(questions.count)"
         }
         
-        // Проверяем ответ
         func checkAnswer(userAnswer: Bool) {
             let correctAnswer = questions[currentQuestion]["answer"] as! Bool
             
             if userAnswer == correctAnswer {
                 score += 1
-                // Подсвечиваем кнопку зеленым
                 userAnswer ? (yesButton.backgroundColor = .green) : (noButton.backgroundColor = .green)
             } else {
-                // Подсвечиваем кнопку красным
                 userAnswer ? (yesButton.backgroundColor = .red) : (noButton.backgroundColor = .red)
             }
             
-            // Через секунду переходим к следующему вопросу
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.nextQuestion()
             }
         }
         
-        // Переход к следующему вопросу или результатам
         func nextQuestion() {
-            // Возвращаем кнопкам обычный цвет
             yesButton.backgroundColor = .systemBlue
             noButton.backgroundColor = .systemBlue
             
@@ -90,7 +81,7 @@ import UIKit
                 currentQuestion += 1
                 showQuestion()
             } else {
-                // Показываем результат
+
                 let alert = UIAlertController(
                     title: "Игра окончена",
                     message: "Ваш счет: \(score) из \(questions.count)",
@@ -107,7 +98,6 @@ import UIKit
             }
         }
         
-        // Действия кнопок
         @IBAction func yesButton(_ sender: UIButton) {
             checkAnswer(userAnswer: true)
         }
